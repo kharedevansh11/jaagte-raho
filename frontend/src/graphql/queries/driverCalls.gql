@@ -1,0 +1,9 @@
+# A page of a driver's call history, newest first. Pass nextCursor as `after` for older calls.
+query DriverCalls($driverId: ID!, $take: Int, $after: String) {
+  driverCalls(driverId: $driverId, take: $take, after: $after) {
+    items {
+      ...CallFields
+    }
+    nextCursor
+  }
+}

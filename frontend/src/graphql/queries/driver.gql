@@ -1,0 +1,9 @@
+# One driver plus their latest calls (enough to work out the current state).
+query Driver($id: ID!) {
+  driver(id: $id) {
+    ...DriverFields
+    calls(take: 10) {
+      ...CallFields
+    }
+  }
+}

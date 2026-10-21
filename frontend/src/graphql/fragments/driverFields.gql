@@ -1,0 +1,15 @@
+fragment DriverFields on Driver {
+  id
+  name
+  phone
+  language
+  ownerName
+  ownerPhone
+  shiftStart
+  shiftEnd
+  active
+  lastLevel
+  lastCallAt
+  nextCallAt
+  lastAlertAt
+}

@@ -1,0 +1,85 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum AlertLevel {
+  GREEN
+  AMBER
+  RED
+  MISSED
+}
+
+enum CallKind {
+  WELCOME
+  CHECK_IN
+  OWNER_ALERT
+}
+
+/// A fleet owner or manager. Identity comes from Clerk; we keep just what the app needs.
+model Owner {
+  id          String   @id @default(cuid())
+  clerkUserId String   @unique
+  name        String?
+  email       String?
+  createdAt   DateTime @default(now())
+  drivers     Driver[]
+}
+
+model Driver {
+  id          String      @id @default(cuid())
+  // Null only for demo drivers and drivers added before accounts existed.
+  ownerId     String?
+  owner       Owner?      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  name        String
+  phone       String      @unique
+  language    String      @default("hi")
+  ownerName   String?
+  ownerPhone  String?
+  // "HH:mm" in APP_TIMEZONE; an end before the start wraps past midnight.
+  shiftStart  String      @default("22:00")
+  shiftEnd    String      @default("06:00")
+  active      Boolean     @default(true)
+  isDemo      Boolean     @default(false)
+  lastLevel   AlertLevel?
+  lastCallAt  DateTime?
+  nextCallAt  DateTime?
+  lastAlertAt DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  calls       Call[]
+
+  @@index([active, nextCallAt])
+  @@index([ownerId])
+}
+
+model Call {
+  id           String      @id @default(cuid())
+  driverId     String
+  driver       Driver      @relation(fields: [driverId], references: [id], onDelete: Cascade)
+  kind         CallKind
+  executionId  String?     @unique
+  status       String      @default("queued")
+  level        AlertLevel?
+  score        Int?
+  reasons      String?
+  transcript   String?
+  summary      String?
+  location     String?
+  passenger    Boolean?
+  // The everyday question asked on this check-in, so the next call never repeats it.
+  question     String?
+  durationSec  Float?
+  recordingUrl String?
+  createdAt    DateTime    @default(now())
+  completedAt  DateTime?
+
+  @@index([driverId, createdAt])
+}

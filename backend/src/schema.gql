@@ -1,0 +1,105 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+enum AlertLevel {
+  AMBER
+  GREEN
+  MISSED
+  RED
+}
+
+type Call {
+  completedAt: DateTime
+  createdAt: DateTime!
+  driverId: String!
+  durationSec: Float
+  id: ID!
+  kind: CallKind!
+  level: AlertLevel
+  location: String
+  passenger: Boolean
+  reasons: [String!]!
+  recordingUrl: String
+  score: Int
+  status: String!
+  summary: String
+  transcript: String
+}
+
+enum CallKind {
+  CHECK_IN
+  OWNER_ALERT
+  WELCOME
+}
+
+type CallPage {
+  items: [Call!]!
+  nextCursor: String
+}
+
+input CreateDriverInput {
+  language: String
+  name: String!
+  ownerName: String
+  ownerPhone: String
+  phone: String!
+  shiftEnd: String
+  shiftStart: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Driver {
+  active: Boolean!
+  calls(take: Int! = 20): [Call!]!
+  createdAt: DateTime!
+  id: ID!
+  isDemo: Boolean!
+  language: String!
+  lastAlertAt: DateTime
+  lastCallAt: DateTime
+  lastLevel: AlertLevel
+  name: String!
+  nextCallAt: DateTime
+  ownerName: String
+  ownerPhone: String
+  phone: String!
+  shiftEnd: String!
+  shiftStart: String!
+}
+
+type Mutation {
+  callDriverNow(id: ID!): Call!
+  createDriver(input: CreateDriverInput!): Driver!
+  deleteDriver(id: ID!): Driver!
+  updateDriver(id: ID!, input: UpdateDriverInput!): Driver!
+}
+
+type OwnerModel {
+  email: String
+  id: ID!
+  name: String
+}
+
+type Query {
+  driver(id: ID!): Driver!
+  driverCalls(after: String, driverId: ID!, take: Int! = 20): CallPage!
+  drivers: [Driver!]!
+  me: OwnerModel!
+  recentCalls(take: Int! = 50): [Call!]!
+}
+
+input UpdateDriverInput {
+  active: Boolean
+  language: String
+  name: String
+  ownerName: String
+  ownerPhone: String
+  phone: String
+  shiftEnd: String
+  shiftStart: String
+}

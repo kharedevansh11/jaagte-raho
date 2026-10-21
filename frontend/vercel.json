@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/graphql", "destination": "https://jaagte-raho.onrender.com/graphql" },
+    { "source": "/demo/:path*", "destination": "https://jaagte-raho.onrender.com/demo/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

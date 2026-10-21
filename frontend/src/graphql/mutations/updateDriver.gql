@@ -1,0 +1,5 @@
+mutation UpdateDriver($id: ID!, $input: UpdateDriverInput!) {
+  updateDriver(id: $id, input: $input) {
+    id
+  }
+}

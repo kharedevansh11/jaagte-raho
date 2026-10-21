@@ -1,0 +1,9 @@
+# The owner's fleet, with each driver's last 10 calls for status and the history strip.
+query Drivers {
+  drivers {
+    ...DriverFields
+    calls(take: 10) {
+      ...CallFields
+    }
+  }
+}

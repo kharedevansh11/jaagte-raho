@@ -1,0 +1,15 @@
+fragment CallFields on Call {
+  id
+  kind
+  status
+  level
+  score
+  reasons
+  summary
+  transcript
+  location
+  passenger
+  durationSec
+  createdAt
+  completedAt
+}

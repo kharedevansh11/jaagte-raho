@@ -1,0 +1,7 @@
+{
+  "name": "jaagte-raho",
+  "private": true,
+  "scripts": {
+    "dev": "trap 'trap - INT TERM EXIT; kill 0' INT TERM EXIT; pnpm -C backend start:dev & pnpm -C frontend dev & wait"
+  }
+}
