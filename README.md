@@ -95,18 +95,3 @@ pnpm dev
 
 Set `CALL_INTERVAL_MINUTES=1` and `RECALL_MINUTES=1`, and set the driver's shift to cover the current time.
 A whole "night" then plays out in a few minutes.
-
-## Deploy (free: Vercel + Render + Neon + Redis Cloud)
-
-- **Database:** Neon Postgres. Set its connection string as `DATABASE_URL` on Render.
-- **Backend (Render, root `backend`):**
-  - Build command: `corepack enable && pnpm i --frozen-lockfile && pnpm db:deploy && pnpm build`. `postinstall` runs `prisma generate`.
-  - Start command: `pnpm start:prod`.
-  - Set `NODE_ENV=production`, and every variable from `.env.example`.
-- **One instance only:** the scheduler runs in-process. The queue itself already scales across workers.
-- **Redis:** Redis Cloud free tier as `REDIS_URL`. Upstash's free command quota runs out under BullMQ's polling.
-- **Frontend (Vercel, root `frontend`):** set `VITE_CLERK_PUBLISHABLE_KEY`.
-  - `frontend/vercel.json` forwards `/graphql` and `/demo` to the Render URL and serves `index.html` for every other route.
-  - If the Render service has a different name, change the URL in `vercel.json`.
-- **Clerk and Bolna:** set `CLERK_AUTHORIZED_PARTIES` to the Vercel URL. Point both Bolna agents' webhooks at `https://<render-url>/webhooks/bolna?token=<WEBHOOK_TOKEN>`.
-- **Keep it awake:** Render's free tier sleeps after 15 idle minutes, which stops the scheduler. Ping `/graphql` every 10 minutes (for example with cron-job.org).
