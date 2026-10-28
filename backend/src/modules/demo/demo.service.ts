@@ -13,6 +13,8 @@ import type { DemoCallDto } from './dto/demo-call.dto.js';
 
 const HOUR = 60 * 60_000;
 const DAY = 24 * HOUR;
+// ponytail: 1-minute per-number window for recording retakes; raise back to HOUR before sharing widely.
+const PER_NUMBER_WINDOW = 60_000;
 
 /** Public "try it now" calls, rate limited so strangers can't drain Bolna credits. */
 @Injectable()
@@ -28,12 +30,12 @@ export class DemoService {
     const now = Date.now();
     if (
       (await this.callsRepo.countDemoCallsSince(
-        new Date(now - HOUR),
+        new Date(now - PER_NUMBER_WINDOW),
         dto.phone,
       )) > 0
     ) {
       throw new HttpException(
-        'One demo call per number per hour',
+        'One demo call per number per minute',
         HttpStatus.TOO_MANY_REQUESTS,
       );
     }

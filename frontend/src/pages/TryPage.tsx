@@ -41,7 +41,7 @@ function errorCopy(e: unknown) {
   if (e.status === 429)
     return /today/i.test(e.message)
       ? 'The demo hit its call limit for today. Please try tomorrow.'
-      : 'We already called this number in the last hour. Try another number, or come back a little later.'
+      : 'We just called this number. Try again in a minute.'
   return 'Couldn’t place the call. Please try again.'
 }
 
@@ -107,7 +107,7 @@ export function TryPage() {
               <button className="btn btn-primary btn-block" disabled={busy || !name.trim() || !number.trim()}>
                 {busy ? 'Placing the call…' : 'Call me now'}
               </button>
-              <p className="fine">Takes under a minute. One call per number per hour. Your number is used only for this demo.</p>
+              <p className="fine">Takes under a minute. Your number is used only for this demo.</p>
             </form>
           )}
 
