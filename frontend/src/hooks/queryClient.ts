@@ -17,7 +17,7 @@ export const queryClient = new QueryClient({
       refetchOnWindowFocus: true,
       // A blip retries quietly; a missing session or a 404 won't get better by retrying.
       retry: (failures, error) =>
-        failures < 2 && !(error instanceof AuthError) && !(error instanceof ApiError && error.status === 404),
+        failures < 2 && !(error instanceof AuthError) && !(error instanceof ApiError && (error.status === 404 || error.status === 403)),
       retryDelay: (attempt) => Math.min(1_500 * 2 ** attempt, 10_000),
     },
   },

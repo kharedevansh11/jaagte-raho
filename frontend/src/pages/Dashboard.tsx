@@ -1,6 +1,6 @@
 import { Link, Navigate } from 'react-router-dom'
 import { Activity, ChevronRight, Gauge, Phone, PhoneCall, Plus, Siren, Users } from 'lucide-react'
-import { AuthError } from '../lib/errors'
+import { ApiError, AuthError } from '../lib/errors'
 import type { Call, Driver } from '../lib/types'
 import { useDrivers } from '../hooks/useDrivers'
 import { sortByAttention, type DriverState } from '../lib/status'
@@ -39,7 +39,11 @@ export function Dashboard() {
     >
       {stale && <p className="stale-bar">{t.stale(timeOf(updatedAt))}</p>}
       {!drivers ? (
-        fleet.isError ? <p className="stale-bar">{t.error.network}</p> : <Skeleton />
+        fleet.isError ? (
+          <p className="stale-bar">
+            {fleet.error instanceof ApiError && fleet.error.status === 403 ? t.error.rejected : t.error.network}
+          </p>
+        ) : <Skeleton />
       ) : drivers.length === 0 ? (
         <Empty t={t} />
       ) : (

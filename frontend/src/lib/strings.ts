@@ -206,6 +206,7 @@ const en = {
   error: {
     generic: "Something went wrong. Try again in a moment.",
     network: "Can't reach Jaagte Raho. Check your internet and try again.",
+    rejected: "Signed in, but the server didn't accept your session. Try again in a few minutes.",
     notFound: "This driver isn't here any more.",
   },
 }
@@ -402,6 +403,7 @@ const hi: Strings = {
   error: {
     generic: 'कुछ गड़बड़ हुई। थोड़ी देर में फिर कोशिश करें।',
     network: 'Jaagte Raho से जुड़ नहीं पा रहे। इंटरनेट देखें और फिर कोशिश करें।',
+    rejected: 'आप साइन इन हैं, पर सर्वर ने सेशन स्वीकार नहीं किया। कुछ मिनट बाद फिर कोशिश करें।',
     notFound: 'यह ड्राइवर अब यहाँ नहीं है।',
   },
 }

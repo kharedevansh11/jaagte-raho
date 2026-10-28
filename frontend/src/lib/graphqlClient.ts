@@ -35,7 +35,9 @@ export async function request<TData, TVariables extends Record<string, unknown>>
   const err = body.errors?.[0]
   if (err) {
     const code = err.extensions?.code
-    if (code === 'FORBIDDEN' || code === 'UNAUTHENTICATED') throw new AuthError()
+    // We sent a live Clerk token and the server still refused it: a server config problem, not a
+    // signed-out owner. Sending them to /login would bounce straight back here in a loop.
+    if (code === 'FORBIDDEN' || code === 'UNAUTHENTICATED') throw new ApiError('rejected', 403)
     const original = err.extensions?.originalError
     const message = Array.isArray(original?.message) ? original.message[0] : original?.message
     throw new ApiError(message ?? err.message, original?.statusCode)
