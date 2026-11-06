@@ -102,7 +102,7 @@ export function TryPage() {
                 <input id="try-name" autoComplete="given-name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Priya" maxLength={40} required />
               </div>
               <PhoneField id="try-phone" label="Phone" prefix={prefix} number={number} onPrefix={setPrefix} onNumber={setNumber} error={phoneError} />
-              <LanguageChips label="Language" value={language} onChange={setLanguage} only={['hi', 'en', 'ta', 'kn']} />
+              <LanguageChips label="Language" value={language} onChange={setLanguage} only={['hi', 'en', 'kn']} />
               {error && <p className="form-error">{error}</p>}
               <button className="btn btn-primary btn-block" disabled={busy || !name.trim() || !number.trim()}>
                 {busy ? 'Placing the call…' : 'Call me now'}

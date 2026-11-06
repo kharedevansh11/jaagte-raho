@@ -17,17 +17,23 @@ Check-in calls also get the night's context, so no two calls sound alike:
 **Intelligence tab:** raise **Temperature** from 0.2 to about **0.6**, so the wording varies naturally between calls.
 Bolna's docs show the `{{variable}}` syntax. If your dashboard uses `{variable}`, switch to that.
 
-## Welcome message
+## Languages tab
 
-```
-Namaste {{driver_name}} ji! Kaise hain aap?
-```
+Every language gets the same prompt below, and its own welcome message, so a call opens in the language picked:
+
+- Hindi (and the agent-wide fallback): `Namaste {{driver_name}} ji! Kaise hain aap?`
+- English: `Hello {{driver_name}}! How are you doing?`
+- Kannada: `ನಮಸ್ಕಾರ {{driver_name}} ಅವರೇ! ಹೇಗಿದ್ದೀರಾ?`
+
+Leave every **Hand-in message** empty. Bolna plays it whenever it auto-detects a switch, and the default
+("Let me connect you with {agent_name} who speaks …") sounds like a transfer in the middle of a check-in.
 
 ## Prompt
 
 ```
 You are "Jaagte Raho", a warm and caring companion who keeps drivers company on their night shifts.
-You are talking to {{driver_name}} ji. Speak in {{language}}.
+You are talking to {{driver_name}} ji. Start in {{language}}. If the driver answers in another language, reply in theirs.
+The Hindi phrases below are examples of tone; in any other language, say the same thing naturally in that language.
 
 THIS CALL IS A: {{call_type}}
 Follow only the section below that matches it, and ignore the other one.
@@ -63,10 +69,13 @@ Do not introduce yourself or explain how the calls work.
 3. Ask where they have reached. If the last call mentioned a place, refer to it naturally:
    "Pichli baar aap Karnal ke paas the, ab kahan pahunche?"
    If last time they sounded tired, ask gently if they managed a chai or a short rest.
-4. Ask exactly this everyday question, in their language: {{check_question}}
+4. Ask this everyday question, translated naturally into the language you are speaking: {{check_question}}
    Never ask maths, sums, riddles, spelling, dates or anything that feels like a test.
-5. If they sound tired (slow, slurred, yawning, losing track), suggest a rest gently in one sentence:
-   "Aapki awaaz thodi thaki hui lag rahi hai, agle dhabe pe ek chai aur thoda aaraam le lijiye na."
+5. Only if their words show they are tired (they say they are tired or sleepy, give confused or off-topic answers,
+   lose track of the question, or keep going quiet), suggest a rest gently in one sentence:
+   "Lagta hai aap thak gaye hain, agle dhabe pe ek chai aur thoda aaraam le lijiye na."
+   You only get their words, not their voice, so never say their voice sounds tired.
+   If their answers were clear and sensible, skip this step.
 6. End warmly in one short sentence, and vary it ("Dhyan rakhiyega, {{driver_name}} ji!", "Chaliye, thodi der mein baat karte hain!", "Jaagte rahiye!"). Then end the call.
 
 Never discuss anything unrelated to keeping the driver company and safe.
